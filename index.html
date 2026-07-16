@@ -1,51 +1,132 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
     <title>WordSphere</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.css">
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.css">
+
     <link rel="stylesheet" href="./src/style.css">
-  </head>
-  <body>
-    <div class="container">
-      <header>
+</head>
+
+<body>
+
+<div class="background-shapes">
+
+    <div class="shape shape1"></div>
+    <div class="shape shape2"></div>
+    <div class="shape shape3"></div>
+
+</div>
+
+<div class="container">
+
+    <header>
+
         <div class="logo">
-          <div class="logo-icon">W</div>
-          <span>WordSphere</span>
+
+            <img
+                src="./src/assets/wordsphere.png"
+                class="logo-icon"
+                alt="WordSphere">
+
+            <div>
+
+                <h2>WordSphere</h2>
+
+                <small>Your words, defined.</small>
+
+            </div>
+
         </div>
-        <div class="header-right">
-          <button class="theme" id="themeToggle">
+
+        <button
+            id="themeToggle"
+            class="theme">
+
             <span id="themeIcon">
-              <i class="bi bi-moon"></i>
+
+                <i class="bi bi-moon-fill"></i>
+
             </span>
-          </button>
-        </div>
-      </header>
-      <div class="search-section">
-        <form class="search-form" id="searchForm">
-          <input
-            type="text"
-            id="searchInput"
-            placeholder="Search for a word..."
-            class="search-input"
-            autocomplete="off">
-          <button type="submit" class="search-button">
-            <i class="bi bi-search"></i>
-          </button>        
+
+        </button>
+
+    </header>
+
+    <section class="search-section">
+
+        <form
+            id="searchForm"
+            class="search-form">
+
+            <input
+                id="searchInput"
+                class="search-input"
+                autocomplete="off"
+                placeholder="Search for a word..."
+                type="text">
+
+            <button
+                class="search-button"
+                type="submit">
+
+                <i class="bi bi-search"></i>
+
+            </button>
+
         </form>
-      </div>
-      <div class="error-message" id="errorMessage" role="alert"></div>
-      <div class="loading">Loading...</div>
-      <div class="content" id="content">
-        <div class="empty-state">
-          <div class="empty-state-icon">
-            <i class="bi bi-book"></i>
-          </div>
-          <p>Search for a word to get started</p>
-        </div>
-      </div>
+
+    </section>
+
+    <div
+        id="errorMessage"
+        class="error-message">
+
     </div>
-    <script type="module" src="./src/main.js"></script>
-  </body>
+
+    <div class="loading">
+
+        <div class="loader"></div>
+
+        <p>Searching dictionary...</p>
+
+    </div>
+
+    <main
+        id="content"
+        class="content">
+
+        <div class="empty-state">
+
+            <i class="bi bi-book-half"></i>
+
+            <h2>Search any English word</h2>
+
+            <p>
+
+                Instantly discover meanings,
+                pronunciation,
+                examples,
+                synonyms,
+                antonyms,
+                and more.
+
+            </p>
+
+        </div>
+
+    </main>
+
+</div>
+
+<script type="module" src="./src/main.js"></script>
+
+</body>
 </html>
