@@ -60,7 +60,7 @@ async function fetchWord(word) {
     console.error('Fetch error:', error);
     return null;
   } finally {
-      elements.loading.style.display = 'none';
+    elements.loading.style.display = 'none';
   }
 }
 
@@ -74,7 +74,7 @@ function displayWord(wordData) {
     if (wordData.phonetics && wordData.phonetics.some(p => p.audio)) {
       const audioUrl = wordData.phonetics.find(p => p.audio)?.audio;
       if (audioUrl) {
-        html += `<button class="audio-btn" onclick="playAudio('${audioUrl}')"><i class="bi bi-volume-up"></i></button>`;
+        html += `<button class="audio-btn" onclick="playAudio('${audioUrl}')" title="Play pronunciation"><i class="bi bi-volume-up"></i></button>`;
       }
     }
 
@@ -85,109 +85,104 @@ function displayWord(wordData) {
   if (wordData.meanings && wordData.meanings.length > 0) {
     wordData.meanings.forEach(meaning => {
       html += '<div class="definitions-section">';
-      html += `<div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
-      <h2 class="section-title" style="margin: 0;">${meaning.partOfSpeech}</h2>
-                <div style="flex: 1; height: 1px; background-color: #ddd;"></div>
-            </div>`;
-            if (meaning.definitions) {
-                html += '<h3 style="font-size: 14px; font-weight: 600; color: #999; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px;">Meaning</h3>';
-                meaning.definitions.forEach(def => {
-                    html += '<div class="definition-item">';
-                    html += `<div class="definition-text">• ${def.definition}</div>`;
-                    
-                    if (def.example) {
-                        html += `<div class="example">"${def.example}"</div>`;
-                    }
-                    
-                    if (def.synonyms && def.synonyms.length > 0) {
-                        html += '<div style="margin-top: 10px;">';
-                        html += `<strong style="color: #999; font-size: 12px;">Synonyms:</strong> `;
-                        html += def.synonyms.slice(0, 3).map(syn => 
-                            `<span class="synonym-tag" onclick="searchWord('${syn}')">${syn}</span>`
-                        ).join(' ');
-                        html += '</div>';
-                    }
-                    
-                    html += '</div>';
-                });
-            }
- 
-            // Synonyms for this part of speech
-            if (meaning.synonyms && meaning.synonyms.length > 0) {
-                html += '<div class="synonyms-section">';
-                html += '<div class="synonyms-title">Synonyms</div>';
-                html += '<div class="synonyms-list">';
-                meaning.synonyms.slice(0, 8).forEach(synonym => {
-                    html += `<span class="synonym-tag" onclick="searchWord('${synonym}')">${synonym}</span>`;
-                });
-                html += '</div></div>';
-            }
- 
+      html += `<h2 class="section-title">${meaning.partOfSpeech}</h2>`;
+      
+      if (meaning.definitions) {
+        html += '<h3 style="font-size: 14px; font-weight: 600; color: #999; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px;">Meaning</h3>';
+        meaning.definitions.forEach((def, index) => {
+          html += '<div class="definition-item">';
+          html += `<div class="definition-text">• ${def.definition}</div>`;
+          
+          if (def.example) {
+            html += `<div class="example">"${def.example}"</div>`;
+          }
+          
+          if (def.synonyms && def.synonyms.length > 0) {
+            html += '<div style="margin-top: 12px;">';
+            html += `<strong style="color: #999; font-size: 12px;">Synonyms:</strong> `;
+            html += def.synonyms.slice(0, 3).map(syn => 
+              `<span class="synonym-tag" onclick="searchWord('${syn}')">${syn}</span>`
+            ).join(' ');
             html += '</div>';
+          }
+          
+          html += '</div>';
         });
-    }
- 
+      }
 
-    const allAntonyms = [];
-    if (wordData.meanings) {
-        wordData.meanings.forEach(meaning => {
-            if (meaning.antonyms) {
-                allAntonyms.push(...meaning.antonyms);
-            }
-        });
-    }
- 
-    if (allAntonyms.length > 0) {
-        html += '<div class="definitions-section">';
-        html += '<h2 class="section-title">Antonyms</h2>';
+      // Synonyms for this part of speech
+      if (meaning.synonyms && meaning.synonyms.length > 0) {
+        html += '<div class="synonyms-section">';
+        html += '<div class="synonyms-title">Synonyms</div>';
         html += '<div class="synonyms-list">';
-        allAntonyms.slice(0, 8).forEach(antonym => {
-            html += `<span class="synonym-tag" onclick="searchWord('${antonym}')">${antonym}</span>`;
+        meaning.synonyms.slice(0, 8).forEach(synonym => {
+          html += `<span class="synonym-tag" onclick="searchWord('${synonym}')">${synonym}</span>`;
         });
         html += '</div></div>';
-    }
- 
-    if (wordData.sourceUrls && wordData.sourceUrls.length > 0) {
-        html += '<div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #e5e5e5;">';
-        html += '<p style="font-size: 12px; color: #999; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px;">Source</p>';
-        wordData.sourceUrls.forEach(url => {
-            html += `<a href="${url}" target="_blank" style="color: #20c997; text-decoration: none; font-size: 14px; display: inline-block; margin-right: 20px;">${url} →</a>`;
-        });
-        html += '</div>';
-    }
- 
-    elements.content.innerHTML = html;
+      }
+
+      html += '</div>';
+    });
+  }
+
+  // Antonyms
+  const allAntonyms = [];
+  if (wordData.meanings) {
+    wordData.meanings.forEach(meaning => {
+      if (meaning.antonyms) {
+        allAntonyms.push(...meaning.antonyms);
+      }
+    });
+  }
+
+  if (allAntonyms.length > 0) {
+    html += '<div class="definitions-section">';
+    html += '<h2 class="section-title">Antonyms</h2>';
+    html += '<div class="synonyms-list">';
+    allAntonyms.slice(0, 8).forEach(antonym => {
+      html += `<span class="synonym-tag" onclick="searchWord('${antonym}')">${antonym}</span>`;
+    });
+    html += '</div></div>';
+  }
+
+  // Source URLs
+  if (wordData.sourceUrls && wordData.sourceUrls.length > 0) {
+    html += '<div style="margin-top: 40px; padding-top: 24px; border-top: 1px solid rgba(0,0,0,0.1);">';
+    html += '<p style="font-size: 12px; color: #999; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px;">Source</p>';
+    wordData.sourceUrls.forEach(url => {
+      html += `<a href="${url}" target="_blank" rel="noopener noreferrer" style="color: #20c997; text-decoration: none; font-size: 14px; display: inline-block; margin-right: 20px; transition: all 0.3s; border-bottom: 1px solid #20c997;">Read more →</a>`;
+    });
+    html += '</div>';
+  }
+
+  elements.content.innerHTML = html;
 }
- 
 
 window.playAudio = function(audioUrl) {
-    if (!audioUrl) return;
-    const audio = new Audio(audioUrl);
-    audio.play().catch(error => {
-        console.error('Error playing audio:', error);
-        showError('Could not play audio pronunciation.');
-    });
+  if (!audioUrl) return;
+  const audio = new Audio(audioUrl);
+  audio.play().catch(error => {
+    console.error('Error playing audio:', error);
+    showError('Could not play audio pronunciation.');
+  });
 };
- 
 
 window.searchWord = function(word) {
-    elements.searchInput.value = word;
-    performSearch();
+  elements.searchInput.value = word;
+  performSearch();
 };
- 
 
 async function performSearch() {
-    const word = elements.searchInput.value.trim();
-    const wordData = await fetchWord(word);
-    if (wordData) {
-        displayWord(wordData);
-    }
+  const word = elements.searchInput.value.trim();
+  const wordData = await fetchWord(word);
+  if (wordData) {
+    displayWord(wordData);
+  }
 }
- 
 
 elements.searchForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    performSearch();
+  e.preventDefault();
+  performSearch();
 });
- 
+
 initializeTheme();
