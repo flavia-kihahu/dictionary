@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap');
-
 :root{
     --primary:#16b8b8;
     --primary-dark:#109999;
@@ -264,12 +262,6 @@ body.dark-mode .error-message{
     color:var(--text-light);
 }
 
-@keyframes spin{
-    to{
-        transform:rotate(360deg);
-    }
-}
-
 .content{
     animation:fadeUp .5s ease;
 }
@@ -503,15 +495,4 @@ body.dark-mode .synonym-tag{
 
 .source a:hover{
     text-decoration:underline;
-}
-
-@keyframes fadeUp{
-    from{
-        opacity:0;
-        transform:translateY(20px);
-    }
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
 }
